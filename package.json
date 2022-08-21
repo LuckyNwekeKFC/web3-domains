@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.7.3",
-    "ethereum-libraries-string-utils": "^1.2.1"
+    "ethereum-libraries-string-utils": "^1.2.1",
+    "solidity-string-utils": "^0.0.8-0"
   }
 }

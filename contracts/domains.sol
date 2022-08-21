@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: UNLICENSED
-
 pragma solidity ^0.8.10;
 
 // Don't forget to add this import
@@ -7,19 +6,18 @@ import { StringUtils } from "./libraries/StringUtils.sol";
 import "hardhat/console.sol";
 
 contract Domains {
-  // A "mapping" data type to store their names
-  mapping(string => address) public domains;
+  // Here's our domain TLD!
+  string public tld;
 
-  // Checkout our new mapping! This will store values
+  mapping(string => address) public domains;
   mapping(string => string) public records;
-  
-  constructor(string memory) payable{
+		
+  // We make the contract "payable" by adding this to the constructor
+  constructor(string memory _tld) payable {
     tld = _tld;
     console.log("%s name service deployed", _tld);
   }
-
-
-
+		
   // This function will give us the price of a domain based on length
   function price(string calldata name) public pure returns(uint) {
     uint len = StringUtils.strlen(name);
@@ -33,12 +31,16 @@ contract Domains {
     }
   }
 
-  // A register function that adds their names to our mapping
-  function register(string calldata name) public {
-      domains[name] = msg.sender;
-      require(domains[name] == address(0));
-      domains[name] = msg.sender;
-      console.log("%s has registered a domain!", msg.sender);
+  function register(string calldata name) public payable{
+    require(domains[name] == address(0));
+    
+    uint _price = price(name);
+
+    // Check if enough Matic was paid in the transaction
+    require(msg.value >= _price, "Not enough Matic paid");
+
+    domains[name] = msg.sender;
+    console.log("%s has registered a domain!", msg.sender);
   }
 
   // This will give us the domain owners' address
