@@ -1,8 +1,11 @@
-require("@nomicfoundation/hardhat-toolbox");
-require("@nomiclabs/hardhat-ethers");
-require("@nomicfoundation/hardhat-chai-matchers");
+require("@nomiclabs/hardhat-waffle");
 
-/** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: "0.8.10",
-};
+  networks: {
+    mumbai: {
+      url: "YOUR_ALCHEMY_MUMBAI_URL",
+      accounts: ["YOUR_TEST_WALLET_PRIVATE_KEY"],
+    }
+  }
+}
